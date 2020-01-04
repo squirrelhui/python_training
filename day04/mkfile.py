@@ -75,7 +75,12 @@
 #
 # print('%#x' % 10)
 
-print('{} is {} years old'.format('bob', 20))
-print('{} is {} years old'.format( 20,  'bob'))
-print('{1} is {0} years old'.format( 20,  'bob'))
-print('{0[1]} is {0[0]} years old'.format( [20,  'bob']))
+# print('{} is {} years old'.format('bob', 20))
+# print('{} is {} years old'.format( 20,  'bob'))
+# print('{1} is {0} years old'.format( 20,  'bob'))
+# print('{0[1]} is {0[0]} years old'.format( [20,  'bob']))
+
+s1 = '\tHello World!\t'
+print(s1.strip())
+print(s1.lstrip())
+print(s1.rstrip())
