@@ -60,3 +60,22 @@
 #     content = get_content()
 #     content = ['%s\n' % line for line in content ]
 #     wfile(fname, content)
+
+# print('%s is %s years old' % ('tom', 20) )
+#
+# print('%f' % (5/3))
+#
+# print('%.2f' % (5/3))
+#
+# print('%8.2f' % (5/3))
+#
+# print('%e' % 1230000000000000)
+#
+# print('%#o' % 10)
+#
+# print('%#x' % 10)
+
+print('{} is {} years old'.format('bob', 20))
+print('{} is {} years old'.format( 20,  'bob'))
+print('{1} is {0} years old'.format( 20,  'bob'))
+print('{0[1]} is {0[0]} years old'.format( [20,  'bob']))
