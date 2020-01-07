@@ -81,19 +81,29 @@
 # adict.pop('a')
 # print(adict)
 
-aset = set('abc')
-bset = set('bcd')
-cset = set(['tom', 'bob', 'jerry'])
-print(aset)
-print(bset)
-print(cset)
+# aset = set('abc')
+# bset = set('bcd')
+# cset = set(['tom', 'bob', 'jerry'])
+# print(aset)
+# print(bset)
+# print(cset)
+#
+# for name in cset:
+#     print(cset)
+#
+# print(len(cset))
+#
+# 'tom' in cset
+#
+# dset = set('hello')
+# print(dset)
+#
+# dset = aset | bset
+# print(dset)
+#
+# aa = aset.issubset(dset)
+# bb = dset.issuperset(aset)
+#
+# print(aa)
+# print(bb)
 
-for name in cset:
-    print(cset)
-
-print(len(cset))
-
-'tom' in cset
-
-dset = set('hello')
-print(dset)
