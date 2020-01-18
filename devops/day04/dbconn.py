@@ -42,7 +42,7 @@ Base = declarative_base()
 
 class emp(Base):
     __tablename__ = 'emp'
-    Field = Column(Integer, primary_key=True)
+    empno = Column(Integer, primary_key=True)
     ename = Column(String(50))
     job = Column(String(50))
     mgr = Column(Integer, index=True)

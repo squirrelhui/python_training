@@ -2946,5 +2946,123 @@ git@192.168.4.5:devops/myweb.git
 
 139.159.200.182
 
+# DEVOPS DAY05
 
+## 一、Jenkins基础
+
+### （一）Jenkins简介
+
+#### 1、Jenkins概述
+
+• Jenkins是由java编写的一款开源软件
+• 作为一款非常流行的CI(持续集成)工作,用于构建和测试各种项目
+• Jenkins 的主要功能是监视重复工作的执行,例如软件工程的构建或在 cron下设置的 jobs
+
+#### 2、持续集成
+
+• 持续集成(CI)是当下最为流行的应用程序开发实践方式
+• 程序员在代码仓库中集成了修复bug、新特性开发或是功能革新
+• CI工具通过自动构建和自动测试来验证结果。这可以检测到当前程序代码的问题,迅速提供反馈
+
+#### 3、Jenkins特点
+
+• 简单、可扩展、用户界面友好
+• 支持各种SCM(软件配置管理)工具,如SVN、GIT、CVS等
+• 能够构建各种风格的项目
+• 可以选择安装多种插件
+• 跨平台,几乎可以支持所有的平台
+
+### （二）安装jenkins
+
+#### 1、下载Jenkins
+
+可到官网下载
+
+#### 2、安装Jenkins
+
+• 安装Jenkins
+
+```python
+[root@localhost 下载]# rpm -ivh jenkins-2.121-1.1.noarch.rpm	
+警告:jenkins-2.121-1.1.noarch.rpm: 头V4 DSA/SHA1 Signature, 密钥 ID 
+d50582e6: NOKEY
+准备中... #################################	[100%]
+正在升级/安装...
+1:jenkins-2.121-1.1	 #################################	[100%]
+```
+
+• 启动服务
+
+```python
+[root@localhost 下载]# systemctl start jenkins
+[root@localhost 下载]# systemctl enable jenkins
+```
+
+
+
+#### 3、初始化Jenkins
+
+• Jenkins默认运行在8080端口
+
+![image-20200118101414026](/home/student/.config/Typora/typora-user-images/image-20200118101414026.png)
+
+#### 4、安装插件
+
+• 如果网速较快,选择推荐插件,否则选择自定义,只选中GIT即可
+
+#### 5、管理用户
+
+• 可以直接使用Admin登陆
+
+#### 6、完成安装
+
+#### 7、修改管理员密码
+
+#### 8、CI/CD流程
+
+• 程序开发的生命周期内,需要程序员和运维共同协作
+
+![image-20200118101927773](/home/student/.config/Typora/typora-user-images/image-20200118101927773.png)
+
+
+
+## 二、准备git仓库
+
+### （一）本地仓库
+
+#### 1、初始化wordpress项目
+
+#### 2、tag标签
+
+#### 3、升级wordpress
+
+#### 4、更新git仓库
+
+#### 5、添加标签
+
+#### 6、管理标签
+
+### （二）远程仓库
+
+#### 1、创建群组
+
+#### 2、创建wordpress项目
+
+#### 3、创建用户
+
+#### 4、上传wordpress代码
+
+#### 5、在网页中查看项目
+
+
+
+JUnit Plugin version 1.28
+
+
+
+Command Agent Launcher Plugin version 1.4
+
+
+
+Git Parameter Plug-In version 0.9.11
 
