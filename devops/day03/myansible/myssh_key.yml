@@ -1,0 +1,10 @@
+---
+- name: configure ssh pubkey
+  hosts: all
+  tasks: 
+    - name: upload pub key
+      authorized_key:
+        user: root
+        state: present
+        key: "{{ lookup('file', '/home/student/.ssh/id_rsa.pub') }}"
+
