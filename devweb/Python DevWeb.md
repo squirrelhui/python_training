@@ -1212,9 +1212,403 @@ html 文档中:
 
 #### 1、什么是Bootstrap
 
+
+
 #### 2、构成
+
+
 
 #### 3、Bootstrap目录说明
 
+
+
 #### 4、Bootstrap相关技术
 
+
+
+# Python DevWeb Day03
+
+## 一、部署django
+
+### （一）Django概述
+
+#### 1、Django简介
+
+• Django是一个开放源代码的Web应用框架,由Python写成
+• 最初是被开发来用于管理劳伦斯出版集团旗下的一些以新闻内容为主的网站
+• 2005年7月在BSD许可证下发布
+
+#### 2、框架介绍
+
+• Django 框架的核心组件有:
+– 用于创建模型的对象关系映射
+– 为最终用户设计的完美管理界面
+– 一流的 URL 设计
+– 设计者友好的模板语言
+– 缓存系统
+
+#### 3、MTV模式
+
+• Django的MTV模式本质上和MVC是一样的,也是为了各组件间保持松耦合关系,只是定义上有些许不同
+– M 代表模型(Model):负责业务对象和数据库的关系映射(ORM)，对应数据库
+– T 代表模板 (Template):负责如何把页面展示给用户(html)，对应web页面
+– V 代表视图(View):负责业务逻辑,并在适当时候调用Model和Template，对应函数
+• 除了以上三层之外,还需要一个URL分发器,它的作用是将一个个URL的页面请求分发给不同的View处理,
+View再调用相应的Model和Template
+
+````mermaid
+graph LR
+c(客户端)--访问-->s(服务器URLCONF)
+s--调用-->m(Views函数)
+m--CRUD-->v
+v--调用-->t(Template页面)
+t--发送-->c
+````
+
+
+
+#### 4、MTV响应模式
+
+• Web服务器(中间件)收到一个http请求
+• Django在URLconf里查找对应的视图(View)函数来处理http请求
+• 视图函数调用相应的数据模型来存取数据、调用相应的模板向用户展示页面
+• 视图函数处理结束后返回一个http的响应给Web服务器
+• Web服务器将响应发送给客户端
+
+### （二）安装django
+
+#### 1、python虚拟环境
+
+• 每个项目都需要安装很多库,当项目结束后这些库不需要了,该如何清理?
+• 在同一个主系统内,需要同时安装django1.11.6和django2.0.5如何实现
+• 有了python虚拟环境,这些问题将迎刃而解
+
+#### 2、使用虚拟环境
+
+• 每个项目都需要安装很多库,当项目结束后这些库不需要了,该如何清理?
+• 在同一个主系统内,需要同时安装django1.11.6和django2.0.5如何实现
+• 有了python虚拟环境,这些问题将迎刃而解
+
+• Python3中已经自带虚拟环境,只要创建并激活即可
+
+```html
+[root@localhost ~]#	mkdir pyproject
+[root@localhost ~]#	cd	pyproject/
+[root@localhost pyproject]#	python3	-m	venv django_env
+[root@localhost pyproject]#	source	django_env/bin/activate
+(django_env)	[root@localhost pyproject]#
+```
+
+#### 3、安装django
+
+• Django不同版本有微小不同,本课程选用2.2版本
+
+```html
+(django_env) [root@localhost pyproject]# pip install django==1.11.6
+```
+
+• 如果安装过于缓慢,可以使用国内镜像站点
+
+```html
+(django_env)	[root@localhost pyproject]#	cat ~/.pip/pip.conf
+[global]
+index-url=http://pypi.douban.com/simple/
+[install]
+trusted-host=pypi.douban.com
+```
+
+
+
+#### 4、验证django
+
+• Django安装完毕后,就可以导入相关模块了
+
+```python
+(django_env)	[root@localhost pyproject]#	python
+Python	3.6.4	(default,	Apr 27	2018,	08:26:23)	
+[GCC	4.8.5	20150623	(Red Hat 4.8.5-16)]	on	linux
+Type	"help",	"copyright",	"credits"	or "license"	for more	information.
+>>>	import	django
+>>>	django.__version__
+'	1.11.6'
+```
+
+
+
+## 二、Django应用基础
+
+### （一）管理项目
+
+#### 1、创建项目
+
+• Djanog可以自动生成一些代码,这些代码创建一个
+Django项目:一个Django实例的设置集合,包括数
+据库的配置、Django有关的选项和应用有关的选项
+
+```python
+创建项目，方法一：
+(django_env) [root@localhost pyproject]# django-admin startproject mysite
+(django_env) [root@localhost pyproject]# tree mysite
+mysite
+├──	manage.py       # 项目管理程序
+└──	mysite          # 项目配置目录
+├──	__init__.py     # 初始化文件
+├──	settings.py     # 项目的配置文件
+├──	urls.py         # urlconf路由文件
+└──	wsgi.py         # 部署项目到服务器的配置文件
+1	directory,	5	files
+
+创建项目，方法二：
+
+
+
+```
+
+
+
+#### 2、项目文件说明
+
+• 外层的mysite/根目录仅仅是项目的一个容器。 它的名字与Django无关;可以将其重命名为你喜欢的任何内容
+• manage.py:一个命令行工具,可以使用多种方式对Django项目进行交互。 可以在django-admin和manage.py中读到关于manage.py的所有细节
+• 内层的mysite/目录是项目的真正的Python包。 它是导入任何东西时将需要使用的Python包的名字(例如 mysite.urls)
+
+• mysite/__init__.py:一个空文件,它告诉Python这个目录应该被看做一个Python包
+
+• mysite/settings.py:该Django 项目的设置/配置。Django settings 将告诉你这些设置如何工作。
+• mysite/urls.py:此Django项目的URL声明;Django驱动的网站的“目录”
+• mysite/wsgi.py:用于项目的与WSGI兼容的Web服务器入口
+
+#### 3、开发服务器
+
+• Django自带一个开发服务器,默认运行于8000端口。
+• 该开发服务器不要应用在生产环境下，只能用于开发环境。
+
+```python
+(django_env) [root@localhost mysite]# python manage.py runserver
+Performing system checks...
+System check identified no issues (0 silenced).
+You	have 13	unapplied migration(s). Your project may	not	work properly	
+until you	apply the migrations for app(s): admin,	auth, contenttypes,	
+sessions.
+Run	'python	manage.py migrate' to apply	them.
+May	09,	2018 - 23:13:04
+Django version 1.11.6,	using settings 'mysite.settings'
+Starting development server	at	http://127.0.0.1:8000/
+Quit the server	with CONTROL-C.
+```
+
+#### 4、访问django
+
+#### 5、修改设置
+
+• Django默认只允许本机访问、英文环境,这些均可在settings.py中进行修改
+
+```python
+ALLOWED_HOSTS = '*’
+LANGUAGE_CODE =	'zh-Hans’
+TIME_ZONE =	'Asia/Shanghai’
+```
+
+#### 6、访问后台
+
+• 一旦创建了项目,django自动生成了后台管理页面http://127.0.0.1:8000/admin
+
+#### 7、生成数据库
+
+• Django生成的项目,使用了很多预先编写好的应用,这些应用需要用到数据
+• 只要执行以下语句,即可自动生成数据库
+
+```python
+(django_env) [root@localhost mysite]# python manage.py migrate
+```
+
+#### 8、创建管理员帐户
+
+• 访问后台需要有超级用户身份
+• 超级用户需要单独创建
+• 用户将写到数据库中
+
+```python
+(django_env)	[root@localhost mysite]#	python	manage.py
+createsuperuser
+Username	(leave	blank	to	use	'root'):	admin
+Email	address:	zzg@tedu.cn
+Password:	
+Password	(again):	
+Superuser created	successfully.
+```
+
+#### 9、课上案例
+
+```python
+# 启动测试服务器,注意不要在生产环境下使用它
+(nsd1907) [root@room8pc16 mysite]# python manage.py runserver
+# 访问http://127.0.0.1:8000/查看页面
+# 创建数据库
+[root@room8pc16 day02]# mysql -uroot -ptedu.cn
+MariaDB [(none)]> CREATE DATABASE dj1907 DEFAULT CHARSET utf8;
+# mysite/__init__.py
+import pymysql
+pymysql.install_as_MySQLdb()
+# 设置django
+# mysite/settings.py
+ALLOWED_HOSTS = ['*']
+# django可以监听在0.0.0.0
+DATABASES = {
+'default': {
+'ENGINE': 'django.db.backends.mysql',
+'NAME': 'dj1908',
+'USER': 'root',
+'PASSWORD': 'tedu.cn',
+'HOST': '127.0.0.1',
+'PORT': '3306',
+}
+}
+LANGUAGE_CODE = 'zh-hans'
+TIME_ZONE = 'Asia/Shanghai'
+USE_TZ = False
+# 按ctrl+c停止开发服务器后,重新运行它,监听在0.0.0.0的80端口。只有root用户才可以使用1024以内的端口。
+(nsd1907) [root@room8pc16 mysite]# python manage.py runserver 0:80
+# django默认的应用需要数据库,生成数据库的表
+(nsd1907) [root@room8pc16 mysite]# python manage.py makemigrations
+(nsd1907) [root@room8pc16 mysite]# python manage.py migrate
+# 创建管理员用户
+(nsd1907) [root@room8pc16 mysite]# python manage.py createsuperuser
+# 访问http://127.0.0.1/admin后台
+```
+
+
+
+### （二）管理应用
+
+#### 1、应用简介
+
+• 应用是一个Web应用程序,它完成具体的事项 ——比如一个博客系统、一个存储公共档案的数据库或者
+一个简单的投票应用
+• 项目是特定网站的配置和应用程序的集合
+• 一个项目可以包含多个应用
+• 一个应用可以运用到多个项目中去
+
+应用就是一个功能模块
+
+每一个应用对应一个目录
+
+#### 2、创建应用
+
+• 应用可以放在Python path上的任何位置
+• 可以在manage.py文件同级目录创建应用,以便可以将它作为顶层模块导入,而不是mysite的子模块
+
+```python
+(django_env) [root@localhost mysite]# python manage.py startapp polls
+```
+
+#### 3、激活应用
+
+• 创建应用后,需要将其安装到项目中,否则应用不会生效
+
+```python
+修改mysite/settings.py:
+INSTALLED_APPS	=	[
+'django.contrib.admin',
+'django.contrib.auth',
+'django.contrib.contenttypes',
+'django.contrib.sessions',
+'django.contrib.messages',
+'django.contrib.staticfiles',
+'polls',
+]
+```
+
+#### 4、配置URLconf
+
+• 为了整洁起见,用户与polls相关的url都交给polls应用进行路由
+• 修改mysite/urls.py如下:
+
+```python
+from django.conf.urls import url, include
+from django.contrib import admin
+urlpatterns = [
+url(r'^admin/',	admin.site.urls),
+url(r'^polls/',	include('polls.urls'))
+]
+```
+
+#### 5、应用路由（编写首页）
+
+• 创建polls应用的URLconf,配置访问polls应用首页的视图
+• 创建polls/urls.py,内容如下:
+
+```python
+from django.conf.urls import url
+from . import views
+urlpatterns = [
+    # 从http://x.x.x.x/polls/这个url起名为index
+    # 访问首页，将会调用views.index函数
+    # 为http：//x.x.x.x/polls/这个url起名为index
+	url(r'^$', views.index,	name='index'),
+]
+```
+
+• URL正则采用的是match操作
+– r'^hello':匹配以hello开头的任意URL,如:/helloabc
+– r'^hello/$':匹配hello且后面无信息的URL,如:/hello,/hello/
+– r'^$':匹配 / 即空URL,通常用来设定应用的根,即默认入口。如: http://IP:port或者http://IP:port/
+
+#### 6、创建视图（）
+
+• 视图是URLconf路由到某一URL时执行的函数
+• 为上一步polls主页编写简单视图,编辑polls/views.py如下:
+
+```python
+from django.conf.urls import	url
+from . import views
+urlpatterns = [
+	url(r'^$', views.index,	name='index'),
+]
+```
+
+
+
+## 三、django模型
+
+### （一）ORM映射
+
+#### 1、模型理念
+
+• 模型指出了数据的唯一、明确的真实来源
+• 它包含了正在存储的数据的基本字段和行为
+• Django遵循DRY(Do not Repeat Yourself) 原则
+• 这个原则的目标是在一个地方定义你的数据模型,并自动从它获得需要的信息
+
+#### 2、模型说明
+
+• 每个模型都用一个类表示,该类继承自
+django.db.models.Model
+• 每个模型都有一些类变量,在模型中每个类变量都代表了数据库中的一个字段
+• 每个字段通过Field类的一个实例表示 —— 例如字符字段CharField和日期字段DateTimeField。 这种方法告诉Django,每个字段中保存着什么类型的数
+
+• 每个Field 实例的名字就是字段的名字,并且是机器可读的格式
+• 在Python代码中将使用到它的值,并且数据库将把它用作表的列名
+
+#### 3、polls应用模型
+
+• 在这个简单的投票应用中,我们将创建两个模型:
+Question和Choice
+• Question对象具有一个question_text(问题)属性和一个publish_date(发布时间)属性
+• Choice有两个字段:选择的内容和选择的得票统计
+
+• 每个Choice与一个Question关联
+
+#### 4、编写模型
+
+
+
+### （二）数据库管理
+
+#### 1、迁移Django储存模型
+
+#### 2、生成数据库
+
+#### 3、查看数据库
+
+#### 4、注册管理后台
